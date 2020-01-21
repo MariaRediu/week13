@@ -1,0 +1,29 @@
+﻿@model List<SimpleMVC.Models.Users>
+
+<div>
+    <h1>Users</h1>
+</div>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var users in Model)
+                {
+                    <tr>
+                        <td>@users.Id</td>
+                        <td>@users.Name</td>
+                        <td>@users.Email</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
