@@ -1,4 +1,8 @@
 ﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,21 +12,10 @@
 </head>
 <body>
     <h1>Home Page</h1>
-    @{ 
-        <div>
-            Date: @DateTime.Now
 
-            @{ 
-                var x = 100;
-                var y = 200;
-                var z = x + y;
+    <div>
+        @ViewBag.User
+    </div>
 
-                <div>@z</div>
-            }
-        </div>
-        <div>
-            @ViewBag.User
-        </div>
-    }
 </body>
 </html>

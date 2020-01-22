@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a8d0c0d5bfc14097bde2b53ed2381484" Name="Diagram1">
+        <EntityTypeShape EntityType="Library_managementModel.LOOKUPRoles" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Library_managementModel.SYSUsers" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Library_managementModel.SYSUserProfiles" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Library_managementModel.SYSUserRoles" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="Library_managementModel.FK__SYSUserRo__LOOKU__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="Library_managementModel.FK__SYSUserPr__SYSUs__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="Library_managementModel.FK__SYSUserRo__SYSUs__46E78A0C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

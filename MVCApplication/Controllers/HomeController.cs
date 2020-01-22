@@ -1,31 +1,33 @@
-﻿using System;
+﻿using MVCApplication.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SimpleMVC.Controllers
+namespace MVCApplication.Controllers
 {
-
     public class HomeController : Controller
     {
-        //Home/Index
+        // GET: Home
         public ActionResult Index()
         {
-            ViewBag.User = "Maria";
             return View();
         }
 
-        public ActionResult About()
+        [Authorize]
+        public ActionResult Welcome()
         {
-                 return View();
-        }
+            return View();
 
-        public ActionResult Contact()
+        }
+        [AuthorizeRoles("Admin")]
+        public ActionResult AdminOnly()
         {
             return View();
         }
-        public ActionResult Users()
+
+        public ActionResult UnAuthorized()
         {
             return View();
         }

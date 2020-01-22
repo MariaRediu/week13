@@ -17,6 +17,7 @@ namespace SimpleMVC.Models
     public class UserData
     {
         private static readonly List<Users> Users = new List<Users>();
+        private int currentIdx=2;
 
         static UserData()
         {
@@ -36,6 +37,13 @@ namespace SimpleMVC.Models
         public Users GetUser(int id)
         {
             return Users.Find(x => x.Id == id);
+        }
+
+        public void AddUser(Users u)
+        {
+            u.Id = currentIdx + 1;
+            currentIdx++;
+            Users.Add(u);
         }
     }
 }

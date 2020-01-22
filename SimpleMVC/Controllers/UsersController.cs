@@ -12,6 +12,7 @@ namespace SimpleMVC.Controllers
     public class UsersController : Controller
     {
         private readonly UserData userData;
+  
 
         public UsersController()
         {
@@ -25,12 +26,34 @@ namespace SimpleMVC.Controllers
 
             return this.View(users);
         }
-
+        [HttpGet]
         public ActionResult ById(int id)
         {
             var u = this.userData.GetUser(id);
 
             return this.View(u);
         }
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateUser()
+        {
+            var form = this.Request.Form;
+            var userName = form["Name"];
+            var email = form["Email"];
+            return this.View("Create");
+        }
+        [HttpPost]
+        public ActionResult CreateUser2(Users u)
+        {
+            
+            //return this.View("Index");
+            return RedirectToAction("Index");
+        }
+
     }
 }
