@@ -18,7 +18,8 @@ namespace MVCApplication.Controllers
         [Authorize]
         public ActionResult Welcome()
         {
-            return View();
+            //return View();
+            return this.RedirectToAction("BookIndex", "Books");
 
         }
         [AuthorizeRoles("Admin")]
@@ -32,5 +33,9 @@ namespace MVCApplication.Controllers
             return View();
         }
 
+        public ActionResult BookIndex()
+        {
+            return View();
+        }
     }
 }

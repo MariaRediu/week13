@@ -4,7 +4,30 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Library_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Library_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Years" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Publication" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Quantities" Type="int" Nullable="false" />
+          <Property Name="Images" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Author_ID" Type="int" Nullable="false" />
+          <Property Name="Publisher_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="LOOKUPRole">
           <Key>
             <PropertyRef Name="LOOKUPRoleID" />
@@ -16,6 +39,15 @@
           <Property Name="RowCreatedDateTime" Type="datetime" />
           <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
           <Property Name="RowModifiedDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="int" Nullable="false" />
+          <Property Name="PublisherName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumberOfBooks" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SYSUser">
           <Key>
@@ -56,6 +88,30 @@
           <Property Name="RowModifiedSYSUserID" Type="int" Nullable="false" />
           <Property Name="RowModifiedDateTime" Type="datetime" />
         </EntityType>
+        <Association Name="FK__Book__Author_ID__4F7CD00D">
+          <End Role="Author" Type="Self.Author" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="Author_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book__Publisher___5165187F">
+          <End Role="Publisher" Type="Self.Publisher" Multiplicity="1" />
+          <End Role="Book" Type="Self.Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="Publisher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SYSUserPr__SYSUs__403A8C7D">
           <End Role="SYSUser" Type="Self.SYSUser" Multiplicity="1" />
           <End Role="SYSUserProfile" Type="Self.SYSUserProfile" Multiplicity="*" />
@@ -93,10 +149,21 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Library_managementModelStoreContainer">
+          <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LOOKUPRole" EntityType="Self.LOOKUPRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Publisher" EntityType="Self.Publisher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUser" EntityType="Self.SYSUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserProfile" EntityType="Self.SYSUserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SYSUserRole" EntityType="Self.SYSUserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Book__Author_ID__4F7CD00D" Association="Self.FK__Book__Author_ID__4F7CD00D">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book__Publisher___5165187F" Association="Self.FK__Book__Publisher___5165187F">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
           <AssociationSet Name="FK__SYSUserPr__SYSUs__403A8C7D" Association="Self.FK__SYSUserPr__SYSUs__403A8C7D">
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserProfile" EntitySet="SYSUserProfile" />
@@ -110,8 +177,7 @@
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Library_managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -225,7 +291,78 @@
             <End Role="SYSUser" EntitySet="SYSUser" />
             <End Role="SYSUserRole" EntitySet="SYSUserRole" />
           </AssociationSet>
+          <EntitySet Name="Author" EntityType="Library_managementModel.Authors" />
+          <EntitySet Name="Book" EntityType="Library_managementModel.Books" />
+          <EntitySet Name="Publisher" EntityType="Library_managementModel.Publishers" />
+          <AssociationSet Name="FK__Book__Author_ID__4F7CD00D" Association="Library_managementModel.FK__Book__Author_ID__4F7CD00D">
+            <End Role="Author" EntitySet="Author" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book__Publisher___5165187F" Association="Library_managementModel.FK__Book__Publisher___5165187F">
+            <End Role="Publisher" EntitySet="Publisher" />
+            <End Role="Book" EntitySet="Book" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Years" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Library_managementModel.FK__Book__Author_ID__4F7CD00D" FromRole="Author" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Publication" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Quantities" Type="Int32" Nullable="false" />
+          <Property Name="Images" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Author_ID" Type="Int32" Nullable="false" />
+          <Property Name="Publisher_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="Library_managementModel.FK__Book__Author_ID__4F7CD00D" FromRole="Book" ToRole="Author" />
+          <NavigationProperty Name="Publisher" Relationship="Library_managementModel.FK__Book__Publisher___5165187F" FromRole="Book" ToRole="Publisher" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="Int32" Nullable="false" />
+          <Property Name="PublisherName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfBooks" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="Library_managementModel.FK__Book__Publisher___5165187F" FromRole="Publisher" ToRole="Book" />
+        </EntityType>
+        <Association Name="FK__Book__Author_ID__4F7CD00D">
+          <End Type="Library_managementModel.Authors" Role="Author" Multiplicity="1" />
+          <End Type="Library_managementModel.Books" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Author">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="Author_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book__Publisher___5165187F">
+          <End Type="Library_managementModel.Publishers" Role="Publisher" Multiplicity="1" />
+          <End Type="Library_managementModel.Books" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="Publisher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -284,6 +421,41 @@
                 <ScalarProperty Name="RowCreatedDateTime" ColumnName="RowCreatedDateTime" />
                 <ScalarProperty Name="RowModifiedSYSUserID" ColumnName="RowModifiedSYSUserID" />
                 <ScalarProperty Name="RowModifiedDateTime" ColumnName="RowModifiedDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Author">
+            <EntityTypeMapping TypeName="Library_managementModel.Authors">
+              <MappingFragment StoreEntitySet="Author">
+                <ScalarProperty Name="Years" ColumnName="Years" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Book">
+            <EntityTypeMapping TypeName="Library_managementModel.Books">
+              <MappingFragment StoreEntitySet="Book">
+                <ScalarProperty Name="Publisher_ID" ColumnName="Publisher_ID" />
+                <ScalarProperty Name="Author_ID" ColumnName="Author_ID" />
+                <ScalarProperty Name="Images" ColumnName="Images" />
+                <ScalarProperty Name="Quantities" ColumnName="Quantities" />
+                <ScalarProperty Name="Publication" ColumnName="Publication" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="BookName" ColumnName="BookName" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publisher">
+            <EntityTypeMapping TypeName="Library_managementModel.Publishers">
+              <MappingFragment StoreEntitySet="Publisher">
+                <ScalarProperty Name="NumberOfBooks" ColumnName="NumberOfBooks" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PublisherName" ColumnName="PublisherName" />
+                <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

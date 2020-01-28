@@ -28,6 +28,7 @@ namespace MVCApplication.Controllers
                 {
                     UM.AddUserAccount(USV);
                     FormsAuthentication.SetAuthCookie(USV.FirstName, false);
+                    //
                     return RedirectToAction("Welcome", "Home");
 
                 }
@@ -57,6 +58,7 @@ namespace MVCApplication.Controllers
                     if (ULV.Password.Equals(password))
                     {
                         FormsAuthentication.SetAuthCookie(ULV.LoginName, false);
+                        //
                         return RedirectToAction("Welcome", "Home");
                     }
                     else
