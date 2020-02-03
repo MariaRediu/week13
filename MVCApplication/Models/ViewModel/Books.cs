@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.WebPages.Html;
 
 namespace MVCApplication.Models.ViewModel
 {
@@ -21,23 +22,22 @@ namespace MVCApplication.Models.ViewModel
         [Column("Detail")]
         [Display(Name = "Detail")]
         public string Detail { get; set; }
-
-        [Column("Price")]
         [Display(Name = "Price")]
         public decimal Price { get; set; }
-
-        [Column("Quantities")]
+  
         [Display(Name = "Quantities")]
         public int Quantities { get; set; }
-
         public string Images { get; set; }
 
-        [Column(" Author of Book")]
-        [Display(Name = " Author of Book")]
-       public int Author_ID { get; set; }
+        [Display(Name = "Author")]
+       public IEnumerable<SelectListItem>  Author_ID { get; set; }
 
-        [Column(" Publisher")]
-        [Display(Name = "Publisher")]
-        public int Publisher_ID { get; set; }
+        [Display(Name = "Name Publisher")]
+        public IEnumerable<SelectListItem> Publisher_ID { get; set; }
+
+        public virtual Publishers Publisher { get; set; }
+        public virtual Author Author { get; set; }
+        // public IEnumerable<Author> Author { get; set; }
+
     }
 }

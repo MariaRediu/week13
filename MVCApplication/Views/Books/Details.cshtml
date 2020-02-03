@@ -1,0 +1,98 @@
+﻿@model MVCApplication.Models.BD.Books
+
+@{
+    ViewBag.Title = "Details";
+}
+   
+    <head>
+        <style>
+            h2 {
+                background-color: plum;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h2><i>Details about book</i></h2>
+
+        <div>
+
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.BookName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BookName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Detail)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Detail)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Publication)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Publication)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Quantities)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Quantities)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Images)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Images)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Author.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Author.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Author.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Author.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Publisher.PublisherName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Publisher.PublisherName)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Back to List of books", "BookIndex")
+            @Html.ActionLink("Edit", "Edit", new { id = Model.BookID })
+        </p>
+    </body>

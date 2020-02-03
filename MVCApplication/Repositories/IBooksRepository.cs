@@ -11,8 +11,8 @@ namespace MVCApplication.Repositories
     {
         IEnumerable<Books> GetBooks();
         Books GetBooksById(int id);
-        void AddBook(Books books);
-        void UpdateBook(Books books);
+        void AddBook(Books model);
+        void UpdateBook(Books model);
         void DeleteBook(int id);
         void Save();
     }

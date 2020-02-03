@@ -28,21 +28,21 @@ namespace MVCApplication.Repositories
             return _dbContext.Book.Find(id); ;
         }
 
-        public void AddBook(Books books)
+        public void AddBook(Books model)
         {
-            _dbContext.Book.Add(books);
+            _dbContext.Book.Add(model);
             Save();
         }
-        public void UpdateBook(Books books)
+        public void UpdateBook(Books model)
         {
-            _dbContext.Entry(books).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.Entry(model).State = System.Data.Entity.EntityState.Modified;
         }
        public void DeleteBook(int id)
         {
-            var books = _dbContext.Book.Find(id);
-            if (books != null)
+            var model = _dbContext.Book.Find(id);
+            if (model != null)
             {
-                _dbContext.Book.Remove(books);
+                _dbContext.Book.Remove(model);
             }
         }
        
