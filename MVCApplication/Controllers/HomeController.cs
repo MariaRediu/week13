@@ -37,6 +37,6 @@ namespace MVCApplication.Controllers
         {
             return View();
         }
-        
+
     }
 }

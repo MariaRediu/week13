@@ -32,5 +32,7 @@ namespace MVCApplication.Models.BD
         public virtual DbSet<Authors> Author { get; set; }
         public virtual DbSet<Books> Book { get; set; }
         public virtual DbSet<Publishers> Publisher { get; set; }
+
+        public System.Data.Entity.DbSet<MVCApplication.Models.ViewModel.Books> Books { get; set; }
     }
 }

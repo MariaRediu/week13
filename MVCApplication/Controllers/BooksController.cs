@@ -1,73 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Abp.AutoMapper;
 using MVCApplication.Models.BD;
 using MVCApplication.Repositories;
+using PagedList;
 
 
 namespace MVCApplication.Controllers
 {
     public class BooksController : Controller
     {
-        private IBooksRepository booksRepository;
+        private readonly IBooksRepository booksRepository;
+     
 
         public BooksController()
         {
             this.booksRepository = new BooksRepository(new LibraryEntities());
         }
         // GET: Books
-        public ActionResult BookIndex()
+        public ActionResult BookIndex(string sortOrder,string currentFilter,string searchString,int? page)
         {
-            var list = booksRepository.GetBooks().OrderBy(x=>x.BookName).ToList();
-            return View( list);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParam= String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.PriceSortParm = sortOrder == "Price" ? "price_desc" : "Price";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var books = booksRepository.GetBooks();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.BookName.Contains(searchString));
+            }
+
+            switch (sortOrder){
+                case "name_desc":
+                    books = books.OrderByDescending(x => x.BookName);
+                    break;
+                case "price_desc":
+                    books = books.OrderBy(x => x.Price);
+                    break;
+                default:
+                    books = books.OrderBy(x => x.BookName);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(books.ToPagedList(pageNumber, pageSize));
+          
         }
         [HttpGet]
         public ActionResult Create()
         {
-            //var books = LibraryEntities.Book.Include(b => b.Publisher);
-            //return View(books.ToList());
-          return View(new Books());
+            return View(new Models.BD.Books());
         }
         [HttpPost]
-        public ActionResult Create(Books model)
+        public ActionResult Create(Models.BD.Books book)
         {
-            try
-            {
+            
                 if (ModelState.IsValid)
                 {
-                    booksRepository.AddBook(model);
+                    booksRepository.AddBook(book);
                     booksRepository.Save();
                     return RedirectToAction("BookIndex");
                         
                 }
-            }
-            catch (System.Data.DataException)
-            {
-                ModelState.AddModelError("", "Unable to save changes.");
-            }
-           // ViewBag.Publisher_ID = new SelectList(LibraryEntities.Publisher, "PublisherID", "PublisherName", model.Publisher_ID);
-            return View(model);
+           //ViewBag.Publisher_ID = new SelectList(LibraryEntities.Publishers, "PublisherID", "PublisherName", book.Publisher_ID);
+            return View(book);
         }
 
         [HttpGet]
         public ActionResult Details(int id)
         {
-            Books bks = booksRepository.GetBooksById(id);
-            return View(bks);
+            Books book = booksRepository.GetBooksById(id);
+            return View(book);
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id = 1)
         {
-            Books bks = booksRepository.GetBooksById(id);
-            return View(bks);
+          
+            Books book = booksRepository.GetBooksById(id);
+            return View(book);
         }
 
         [HttpPost]
-        public ActionResult Edit(Books book)
+        public ActionResult Edit(Books book,int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -110,6 +148,15 @@ namespace MVCApplication.Controllers
                     {"id", id }, { "saveChangesError", true } });
             }
             return RedirectToAction("BookIndex");
+        }
+
+        [AutoMap(typeof(IEnumerable<Books>), typeof(IEnumerable<Books>))]
+        public ActionResult BookListIndex()
+        {
+            
+            IEnumerable<Books> books = booksRepository.GetBooks();
+
+            return this.View(books);
         }
     }
 }

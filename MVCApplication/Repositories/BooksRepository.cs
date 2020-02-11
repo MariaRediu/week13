@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using MVCApplication.Models.BD;
 
@@ -28,21 +29,22 @@ namespace MVCApplication.Repositories
             return _dbContext.Book.Find(id); ;
         }
 
-        public void AddBook(Books model)
+        public void AddBook(Books book)
         {
-            _dbContext.Book.Add(model);
+            _dbContext.Book.Add(book);
             Save();
+
         }
-        public void UpdateBook(Books model)
+        public void UpdateBook(Books book)
         {
-            _dbContext.Entry(model).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.Entry(book).State = System.Data.Entity.EntityState.Modified;
         }
        public void DeleteBook(int id)
         {
-            var model = _dbContext.Book.Find(id);
-            if (model != null)
+            var book = _dbContext.Book.Find(id);
+            if (book != null)
             {
-                _dbContext.Book.Remove(model);
+                _dbContext.Book.Remove(book);
             }
         }
        

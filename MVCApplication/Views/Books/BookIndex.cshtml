@@ -1,4 +1,7 @@
-﻿@model IEnumerable<MVCApplication.Models.BD.Books>
+﻿@model PagedList.IPagedList<MVCApplication.Models.BD.Books>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "IndexBook";
@@ -21,7 +24,7 @@
         <a class="navbar-brand" href="#">Digital Library</a>
 
         <!-- Links -->
-        <ul class="nav navbar-nav" ">
+        <ul class="nav navbar-nav">
             <li class="nav-item">
                 @Html.ActionLink("Home", "Index", "Home")
             </li>
@@ -62,77 +65,96 @@
 </body>
 </html>
 
-<table class="table table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BookName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Detail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Publication)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Quantities)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Images)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Publisher.PublisherName)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+<p>
+    @using (Html.BeginForm("BookIndex", "Books", FormMethod.Get))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Detail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publication)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantities)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Images)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Publisher.PublisherName)
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-light text-dark">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BookID })
-                </button>
-                <button type="button" class="btn btn-outline-light text-dark">
-                    @Html.ActionLink("Details", "Details", new { id = item.BookID })
-                </button>
-                 <button type="button" class="btn btn-outline-light text-dark">
-                     @Html.ActionLink("Delete", "Delete", new { id = item.BookID })
-                 </button>
-            </td>
-        </tr>
+    <p>
+        Find  by title: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) 
+        <input type="submit" value="Search" />
+    </p>
     }
 
-</table>
-<p>
-    <button type="button" class="btn btn-outline-dark"> @Html.ActionLink("Add Book", "Create") </button>
-</p>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                @Html.ActionLink("Book Name", "BookIndex", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Detail", "BookIndex")
+            </th>
+            <th>
+                @Html.ActionLink("Price", "BookIndex", new { sortOrder = ViewBag.PriceSortParm })
+            </th>
+            <th>
+                @Html.ActionLink("Publication", "BookIndex")
+            </th>
+            <th>
+                @Html.ActionLink("Quantities", "BookIndex")
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Images)
+                </th>*@
+            <th>
+                @Html.ActionLink("Author", "BookIndex")
+            </th>
+            <th>
+                @Html.ActionLink("Publisher", "BookIndex")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publication)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantities)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Images)
+                    </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.FirstName)
+                @Html.DisplayFor(modelItem => item.Author.LastName)
+               
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher.PublisherName)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-light text-dark">
+                        @Html.ActionLink("Edit", "Edit", new { BookID = @item.BookID })
+                    </button>
+                    <button type="button" class="btn btn-outline-light text-dark">
+                        @Html.ActionLink("Details", "Details", new { id = item.BookID })
+                    </button>
+                    <button type="button" class="btn btn-outline-light text-dark">
+                        @Html.ActionLink("Delete", "Delete", new { id = item.BookID })
+                    </button>
+                </td>
+            </tr>
+
+        }
+
+    </table>
+    <p>
+        <button type="button" class="btn btn-outline-dark"> @Html.ActionLink("Add Book", "Create") </button>
+    </p>
+
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("BookIndex",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
