@@ -20,6 +20,10 @@ namespace MVCApplication.Controllers
         public BooksController()
         {
             this.booksRepository = new BooksRepository(new LibraryEntities());
+
+            IEnumerable<SelectListItem> items = booksRepository.GetAllPublisher();
+            ViewBag.DropdownSource = items;
+
         }
         // GET: Books
         public ActionResult BookIndex(string sortOrder,string currentFilter,string searchString,int? page)
@@ -92,10 +96,19 @@ namespace MVCApplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-          
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Books book = booksRepository.GetBooksById(id);
+
+            if (book == null)
+            {
+                return HttpNotFound();
+            }
             return View(book);
         }
 

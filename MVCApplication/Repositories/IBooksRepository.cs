@@ -13,7 +13,7 @@ namespace MVCApplication.Repositories
     {
 
         IEnumerable<Books> GetBooks();
-        Books GetBooksById(int id);
+        Books GetBooksById(int? id);
         void AddBook(Books book);
         void UpdateBook(Books book);
         void DeleteBook(int id);

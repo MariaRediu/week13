@@ -25,7 +25,7 @@ namespace MVCApplication.Repositories
         {
             return _dbContext.Book.ToList();
         }
-        public Books GetBooksById(int id)
+        public Books GetBooksById(int? id)
         {
             return _dbContext.Book.Find(id); ;
         }
@@ -77,8 +77,8 @@ namespace MVCApplication.Repositories
             IEnumerable<SelectListItem> list = _dbContext.Book.Select(s => new SelectListItem
             {
                 Selected = false,
-                Text = s.Publisher.PublisherID.ToString(),
-                Value = s.Publisher.PublisherName
+                Text = s.Publisher.PublisherName.ToString(),
+                Value = s.Publisher.PublisherID.ToString()
             });
             return list;
         }
