@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
+using System.Web.Mvc;
 using MVCApplication.Models.BD;
 
 
@@ -70,6 +71,18 @@ namespace MVCApplication.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public IEnumerable<SelectListItem> GetAllPublisher()
+        {
+            IEnumerable<SelectListItem> list = _dbContext.Book.Select(s => new SelectListItem
+            {
+                Selected = false,
+                Text = s.Publisher.PublisherID.ToString(),
+                Value = s.Publisher.PublisherName
+            });
+            return list;
+        }
+       
 
     }
 }

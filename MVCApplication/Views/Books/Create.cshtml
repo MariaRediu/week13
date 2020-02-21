@@ -72,6 +72,7 @@
         @Html.LabelFor(model => model.Publisher_ID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Publisher_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @*@Html.DropDownListFor(model => model.Publisher.PublisherID,(IEnumerable<SelectListItem>)ViewBag.list, "--Select a Publisher--")*@
             @Html.ValidationMessageFor(model => model.Publisher_ID, "", new { @class = "text-danger" })
         </div>
     </div>

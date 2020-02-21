@@ -66,6 +66,7 @@ namespace MVCApplication.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.list = booksRepository.GetAllPublisher();
             return View(new Models.BD.Books());
         }
         [HttpPost]
@@ -75,11 +76,11 @@ namespace MVCApplication.Controllers
                 if (ModelState.IsValid)
                 {
                     booksRepository.AddBook(book);
+           
                     booksRepository.Save();
-                    return RedirectToAction("BookIndex");
-                        
+                    return RedirectToAction("BookIndex");                       
                 }
-           //ViewBag.Publisher_ID = new SelectList(LibraryEntities.Publishers, "PublisherID", "PublisherName", book.Publisher_ID);
+           
             return View(book);
         }
 
@@ -91,7 +92,7 @@ namespace MVCApplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id = 1)
+        public ActionResult Edit(int id)
         {
           
             Books book = booksRepository.GetBooksById(id);

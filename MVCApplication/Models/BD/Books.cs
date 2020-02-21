@@ -11,8 +11,7 @@ namespace MVCApplication.Models.BD
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Books
     {
         public int BookID { get; set; }
@@ -24,10 +23,8 @@ namespace MVCApplication.Models.BD
         public string Images { get; set; }
         public int Author_ID { get; set; }
         public int Publisher_ID { get; set; }
-
-        [ForeignKey("Author_ID")]
+    
         public virtual Authors Author { get; set; }
-        [ForeignKey("Publisher_ID ")]
         public virtual Publishers Publisher { get; set; }
     }
 }

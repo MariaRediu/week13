@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace MVCApplication.Repositories
 {
@@ -17,5 +18,6 @@ namespace MVCApplication.Repositories
         void UpdateBook(Books book);
         void DeleteBook(int id);
         void Save();
+        IEnumerable<SelectListItem> GetAllPublisher();
     }
 }
